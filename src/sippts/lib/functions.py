@@ -8,7 +8,7 @@ import struct
 import os
 import hashlib
 import platform
-
+import uuid
 
 BRED = "\033[1;31;20m"
 RED = "\033[0;31;20m"
@@ -112,7 +112,9 @@ def _enable_mac_iproute():
     try:
         exec(cmd)
     except:
-        print(f'{RED}\nError executing {cmd}. Please execute it manually{WHITE}')
+        print(
+            f"{RED}\nError executing {cmd}. Please execute it manually{WHITE}"
+        )
 
 
 def _disable_mac_iproute():
@@ -120,7 +122,9 @@ def _disable_mac_iproute():
     try:
         exec(cmd)
     except:
-        print(f'{RED}\nError executing {cmd}. Please execute it manually{WHITE}')
+        print(
+            f"{RED}\nError executing {cmd}. Please execute it manually{WHITE}"
+        )
 
 
 def _enable_linux_iproute():
@@ -199,11 +203,11 @@ def ip2long(ip):
     try:
         # First, try to handle IPv4 addresses
         packedIP = socket.inet_aton(ip)
-        return int.from_bytes(packedIP, 'big')
+        return int.from_bytes(packedIP, "big")
     except OSError:
         # If it's not IPv4, assume it's IPv6 and try to handle that
         packedIP = socket.inet_pton(socket.AF_INET6, ip)
-        return int.from_bytes(packedIP, 'big')
+        return int.from_bytes(packedIP, "big")
 
 
 def long2ip(ip):
@@ -212,7 +216,9 @@ def long2ip(ip):
         return str(socket.inet_ntoa(struct.pack("!L", ip)))
     except struct.error:
         # If the IP is too large for IPv4, assume it's IPv6
-        packed_ip = ip.to_bytes(16, byteorder='big')  # Assuming the `ip` is in integer form
+        packed_ip = ip.to_bytes(
+            16, byteorder="big"
+        )  # Assuming the `ip` is in integer form
         return socket.inet_ntop(socket.AF_INET6, packed_ip)
 
 
@@ -238,11 +244,14 @@ def generate_random_string(len_ini, len_end, type):
         )
     elif type == "ascii":
         result_str = "".join(
-            random.choice(r"0123456789abcdefghijklmnopqqrstuvwxyz") for i in range(len)
+            random.choice(r"0123456789abcdefghijklmnopqqrstuvwxyz")
+            for i in range(len)
         )
     else:
         # By default use 'hex'
-        result_str = "".join(random.choice("0123456789abcdef") for i in range(len))
+        result_str = "".join(
+            random.choice("0123456789abcdef") for i in range(len)
+        )
 
     return result_str
 
@@ -281,7 +290,7 @@ def create_message(
     header,
     withcontact,
 ):
-    expires = "120"
+    expires = "600"
 
     if method == "REGISTER" or method == "NOTIFY" or method == "ACK":
         starting_line = "%s sip:%s SIP/2.0" % (method, domain)
@@ -349,12 +358,16 @@ def create_message(
         m = re.search(r"^contact:\s*(.+)", header.lower())
         if not m:
             if method != "CANCEL" and method != "ACK":
-                headers["Contact"] = "<sip:%s@%s:%d;transport=%s>;expires=%s" % (
-                    fromuser,
-                    contactdomain,
-                    fromport,
-                    proto,
-                    expires,
+                headers["Contact"] = (
+                    '<sip:%s@%s:%d;transport=%s>;expires=%s;+sip.instance="<urn:uuid:%s>"'
+                    % (
+                        fromuser,
+                        contactdomain,
+                        fromport,
+                        proto,
+                        expires,
+                        uuid.uuid4(),
+                    )
                 )
 
     headers["Call-ID"] = "%s" % callid
@@ -408,6 +421,7 @@ def create_message(
 
         m = re.search(r"^Route", name)
         if m:
+            continue
             name = "Route"
         msg += "%s: %s\r\n" % (name, value)
 
@@ -1136,7 +1150,9 @@ def fingerprinting(method, msg, headers, verbose):
         m = re.search(r"^[0-9A-F]{3,4}$", tag)
         if m:
             fp.append("OneAccess")
-        m = re.search(r"^[0-9A-F]{1}-[0-9A-F]{8}-[0-9A-F]{16}-[0-9A-F]{8}$", tag)
+        m = re.search(
+            r"^[0-9A-F]{1}-[0-9A-F]{8}-[0-9A-F]{16}-[0-9A-F]{8}$", tag
+        )
         if m:
             fp.append("Yeti")
         m = re.search(r"^[0-9a-z]{10}$", tag)
@@ -1150,7 +1166,8 @@ def fingerprinting(method, msg, headers, verbose):
             if m:
                 fp.append("Cisco SIP Gateway")
             m = re.search(
-                "^[a-f0-9]{18}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$", tag
+                "^[a-f0-9]{18}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+                tag,
             )
             if m:
                 fp.append("Epygi Quadro")
@@ -1284,6 +1301,7 @@ def load_cve_version():
     except:
         return "Unknown"
 
+
 def load_cve():
     import sysconfig
 
@@ -1334,7 +1352,11 @@ def check_model(ua, fp, type, cvelist):
 
     for cve in cvelist:
         cve = cve.lower()
-        if cve.find(model) > -1 and cve.find(version) > -1 and cve.find(firmware) > -1:
+        if (
+            cve.find(model) > -1
+            and cve.find(version) > -1
+            and cve.find(firmware) > -1
+        ):
             found.append(cve)
 
     if len(found) == 0:
