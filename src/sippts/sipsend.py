@@ -142,7 +142,9 @@ class SipSend:
             f"{self.c.BWHITE}[✓] Target: {self.c.GREEN}{self.ip}{self.c.WHITE}:{self.c.GREEN}{self.rport}{self.c.WHITE}/{self.c.GREEN}{self.proto}"
         )
         if self.proxy != "":
-            print(f"{self.c.BWHITE}[✓] Outbound Proxy: {self.c.GREEN} {self.proxy}")
+            print(
+                f"{self.c.BWHITE}[✓] Outbound Proxy: {self.c.GREEN} {self.proxy}"
+            )
         if self.template != "":
             print(f"{self.c.BWHITE}[✓] Template: {self.c.GREEN}{self.template}")
         if (
@@ -150,7 +152,9 @@ class SipSend:
             and self.domain != str(self.ip)
             and self.domain != self.host
         ):
-            print(f"{self.c.BWHITE}[✓] Customized Domain: {self.c.GREEN}{self.domain}")
+            print(
+                f"{self.c.BWHITE}[✓] Customized Domain: {self.c.GREEN}{self.domain}"
+            )
         if self.contact_domain != "":
             print(
                 f"{self.c.BWHITE}[✓] Customized Contact Domain: {self.c.GREEN}{self.contact_domain}"
@@ -184,7 +188,9 @@ class SipSend:
                 f"{self.c.BWHITE}[✓] Customized To Domain: {self.c.GREEN}{self.to_domain}"
             )
         if self.to_tag != "":
-            print(f"{self.c.BWHITE}[✓] Customized To Tag: {self.c.GREEN}{self.to_tag}")
+            print(
+                f"{self.c.BWHITE}[✓] Customized To Tag: {self.c.GREEN}{self.to_tag}"
+            )
         if self.user_agent != "pplsip":
             print(
                 f"{self.c.BWHITE}[✓] Customized User-Agent: {self.c.GREEN}{self.user_agent}"
@@ -194,7 +200,9 @@ class SipSend:
         if self.ofile != "":
             fw = open(self.ofile, "w")
 
-            fw.write("[✓] Target: %s:%s/%s\n" % (self.ip, self.rport, self.proto))
+            fw.write(
+                "[✓] Target: %s:%s/%s\n" % (self.ip, self.rport, self.proto)
+            )
             if self.proxy != "":
                 fw.write("[✓] Outbound Proxy: %s" % self.proxy)
             if self.template != "":
@@ -206,7 +214,9 @@ class SipSend:
             ):
                 fw.write("[✓] Customized Domain: %s\n" % self.domain)
             if self.contact_domain != "":
-                fw.write("[✓] Customized Contact Domain: %s\n" % self.contact_domain)
+                fw.write(
+                    "[✓] Customized Contact Domain: %s\n" % self.contact_domain
+                )
             if self.from_name != "":
                 fw.write("[✓] Customized From Name: %s\n" % self.from_name)
             if self.from_user != "100":
@@ -344,7 +354,9 @@ class SipSend:
                 context.verify_mode = ssl.CERT_NONE
                 context.load_default_certs()
 
-                sock_ssl = context.wrap_socket(sock, server_hostname=str(host[0]))
+                sock_ssl = context.wrap_socket(
+                    sock, server_hostname=str(host[0])
+                )
                 sock_ssl.connect(host)
                 sock_ssl.sendall(bytes(msg[:8192], "utf-8"))
             else:
@@ -360,7 +372,8 @@ class SipSend:
 
             if self.ofile != "":
                 fw.write(
-                    "[+] Sending to %s:%s/%s ...\n" % (self.ip, self.rport, self.proto)
+                    "[+] Sending to %s:%s/%s ...\n"
+                    % (self.ip, self.rport, self.proto)
                 )
                 fw.write(msg + "\n")
 
@@ -412,9 +425,11 @@ class SipSend:
                     auth = headers["auth"]
                     auth_type = headers["auth-type"]
                     headers = parse_digest(auth)
-                    realm = headers["realm"]
+                    # realm = headers["realm"]
+                    realm = self.domain
                     nonce = headers["nonce"]
-                    uri = "sip:%s@%s" % (self.to_user, self.domain)
+                    # uri = "sip:%s@%s" % (self.to_user, self.domain)
+                    uri = "sip:%s" % (self.domain)
                     algorithm = headers["algorithm"]
                     cnonce = headers["cnonce"]
                     nc = headers["nc"]
@@ -498,7 +513,9 @@ class SipSend:
                             )
                             print(f"{self.c.YELLOW}{msg}{self.c.WHITE}")
                         else:
-                            print(f"{self.c.BYELLOW}[=>] Request {self.method} (AUTH)")
+                            print(
+                                f"{self.c.BYELLOW}[=>] Request {self.method} (AUTH)"
+                            )
 
                         if self.ofile != "":
                             fw.write(
@@ -532,7 +549,9 @@ class SipSend:
                                         f"{self.c.GREEN}{resp.decode()}{self.c.WHITE}"
                                     )
                                 else:
-                                    print(f"{self.c.BGREEN}'[<=] Response {response}")
+                                    print(
+                                        f"{self.c.BGREEN}'[<=] Response {response}"
+                                    )
 
                                 if self.ofile != "":
                                     fw.write(
