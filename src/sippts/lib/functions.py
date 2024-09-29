@@ -359,9 +359,8 @@ def create_message(
         if not m:
             if method != "CANCEL" and method != "ACK":
                 headers["Contact"] = (
-                    '<sip:%s@%s:%d;transport=%s>;expires=%s;+sip.instance="<urn:uuid:%s>"'
+                    '<sip:%s:%d;transport=%s>;expires=%s;+sip.instance="<urn:uuid:%s>"'
                     % (
-                        fromuser,
                         contactdomain,
                         fromport,
                         proto,

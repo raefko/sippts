@@ -111,7 +111,9 @@ class SipDigestLeak:
             and self.domain != str(self.ip)
             and self.domain != self.host
         ):
-            print(f"{self.c.BWHITE}[✓] Customized Domain: {self.c.GREEN}{self.domain}")
+            print(
+                f"{self.c.BWHITE}[✓] Customized Domain: {self.c.GREEN}{self.domain}"
+            )
         if self.contact_domain != "":
             print(
                 f"{self.c.BWHITE}[✓] Customized Contact Domain: {self.c.GREEN}{self.contact_domain}"
@@ -194,7 +196,8 @@ class SipDigestLeak:
 
                     while line and self.quit == False:
                         m = re.search(
-                            r"([0-9]*.[0-9]*.[0-9]*.[0-9]*):([0-9]*)\/([A-Z]*)", line
+                            r"([0-9]*.[0-9]*.[0-9]*.[0-9]*):([0-9]*)\/([A-Z]*)",
+                            line,
                         )
                         if m:
                             self.ip = "%s" % (m.group(1))
@@ -228,7 +231,9 @@ class SipDigestLeak:
         )
         print(f"{self.c.BWHITE}[✓] Output file: {self.c.GREEN}{self.ofile}")
         if self.proxy != "":
-            print(f"{self.c.BWHITE}[✓] Outbound Proxy: {self.c.GREEN}{self.proxy}")
+            print(
+                f"{self.c.BWHITE}[✓] Outbound Proxy: {self.c.GREEN}{self.proxy}"
+            )
         print(self.c.WHITE)
 
         cseq = "1"
@@ -352,7 +357,9 @@ class SipDigestLeak:
                 context.verify_mode = ssl.CERT_NONE
                 context.load_default_certs()
 
-                sock_ssl = context.wrap_socket(sock, server_hostname=str(host[0]))
+                sock_ssl = context.wrap_socket(
+                    sock, server_hostname=str(host[0])
+                )
                 sock_ssl.connect(host)
                 sock_ssl.sendall(bytes(msg[:8192], "utf-8"))
             else:
@@ -446,7 +453,7 @@ class SipDigestLeak:
                     headers = parse_digest(auth)
                     realm = headers["realm"]
                     nonce = headers["nonce"]
-                    uri = "sip:%s@%s" % (self.to_user, self.domain)
+                    uri = "sip:%s" % (self.domain)
                     algorithm = headers["algorithm"]
                     cnonce = headers["cnonce"]
                     nc = headers["nc"]
@@ -606,12 +613,18 @@ class SipDigestLeak:
                                         print(
                                             f"{self.c.BWHITE}[+] Sending to {self.ip}:{self.rport}/{self.proto} ..."
                                         )
-                                        print(f"{self.c.YELLOW}{msg}{self.c.WHITE}")
+                                        print(
+                                            f"{self.c.YELLOW}{msg}{self.c.WHITE}"
+                                        )
 
                                     if self.proto == "TLS":
-                                        sock_ssl.sendall(bytes(msg[:8192], "utf-8"))
+                                        sock_ssl.sendall(
+                                            bytes(msg[:8192], "utf-8")
+                                        )
                                     else:
-                                        sock.sendto(bytes(msg[:8192], "utf-8"), host)
+                                        sock.sendto(
+                                            bytes(msg[:8192], "utf-8"), host
+                                        )
 
                     except:
                         print(self.c.WHITE)
@@ -726,7 +739,9 @@ class SipDigestLeak:
                     self.auth_code,
                 )
 
-                print(f"{self.c.YELLOW}[=>] Request 407 Proxy Authentication Required")
+                print(
+                    f"{self.c.YELLOW}[=>] Request 407 Proxy Authentication Required"
+                )
 
                 if self.verbose == 1:
                     print(
@@ -815,9 +830,13 @@ class SipDigestLeak:
                         f.write("\n")
                         f.close()
 
-                        print(f"{self.c.WHITE}Auth data saved in file {self.ofile}")
+                        print(
+                            f"{self.c.WHITE}Auth data saved in file {self.ofile}"
+                        )
                 else:
-                    print(f"{self.c.BRED}No Auth Digest received :(\n{self.c.WHITE}")
+                    print(
+                        f"{self.c.BRED}No Auth Digest received :(\n{self.c.WHITE}"
+                    )
                     line = "%s###%d###%s###No Auth Digest received :(" % (
                         ip,
                         port,
@@ -825,7 +844,9 @@ class SipDigestLeak:
                     )
                     self.found.append(line)
             else:
-                print(f"{self.c.BRED}No Auth Digest received :(\n{self.c.WHITE}")
+                print(
+                    f"{self.c.BRED}No Auth Digest received :(\n{self.c.WHITE}"
+                )
                 line = "%s###%d###%s###%s %s" % (
                     ip,
                     port,
@@ -836,7 +857,11 @@ class SipDigestLeak:
                 self.found.append(line)
         except socket.timeout:
             print(f"{self.c.BRED}No Auth Digest received :(\n{self.c.WHITE}")
-            line = "%s###%d###%s###No Auth Digest received :(" % (ip, port, proto)
+            line = "%s###%d###%s###No Auth Digest received :(" % (
+                ip,
+                port,
+                proto,
+            )
             self.found.append(line)
             pass
         except:
@@ -878,7 +903,9 @@ class SipDigestLeak:
         )
 
         if len(self.found) == 0:
-            print(f"{self.c.WHITE}| {self.c.WHITE}{'Nothing found'.ljust(tlen - 2)} |")
+            print(
+                f"{self.c.WHITE}| {self.c.WHITE}{'Nothing found'.ljust(tlen - 2)} |"
+            )
         else:
             if self.lfile != "":
                 f = open(self.lfile, "w")

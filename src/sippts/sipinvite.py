@@ -174,7 +174,9 @@ class SipInvite:
                 context.verify_mode = ssl.CERT_NONE
                 context.load_default_certs()
 
-                sock_ssl = context.wrap_socket(sock, server_hostname=str(host[0]))
+                sock_ssl = context.wrap_socket(
+                    sock, server_hostname=str(host[0])
+                )
                 sock_ssl.connect(host)
 
             try:
@@ -230,7 +232,9 @@ class SipInvite:
                     )
                 ):
                     # send ACK
-                    print(f"{self.c.YELLOW}[=>] Request ACK from {src} to {dst}")
+                    print(
+                        f"{self.c.YELLOW}[=>] Request ACK from {src} to {dst}"
+                    )
                     msg = create_message(
                         "ACK",
                         self.localip,
@@ -266,7 +270,9 @@ class SipInvite:
                         print(f"{self.c.YELLOW}{msg}")
 
                     if self.ofile != "":
-                        fw.write("[=>] Request ACK from %s to %s\n" % (src, dst))
+                        fw.write(
+                            "[=>] Request ACK from %s to %s\n" % (src, dst)
+                        )
                         if self.verbose == 1:
                             fw.write(msg + "\n")
 
@@ -286,7 +292,7 @@ class SipInvite:
                         headers = parse_digest(auth)
                         realm = headers["realm"]
                         nonce = headers["nonce"]
-                        uri = "sip:%s@%s" % (dst, self.domain)
+                        uri = "sip:%s" % (self.domain)
                         algorithm = headers["algorithm"]
                         cnonce = headers["cnonce"]
                         nc = headers["nc"]
@@ -313,7 +319,14 @@ class SipInvite:
                         )
                         digest = (
                             'Digest username="%s", realm="%s", nonce="%s", uri="%s", response="%s", algorithm=%s'
-                            % (self.auth_user, realm, nonce, uri, response, algorithm)
+                            % (
+                                self.auth_user,
+                                realm,
+                                nonce,
+                                uri,
+                                response,
+                                algorithm,
+                            )
                         )
                         if qop != "":
                             digest += ", qop=%s" % qop
@@ -322,7 +335,9 @@ class SipInvite:
                         if nc != "":
                             digest += ", nc=%s" % nc
 
-                        print(f"{self.c.YELLOW}[=>] Request INVITE from {src} to {dst}")
+                        print(
+                            f"{self.c.YELLOW}[=>] Request INVITE from {src} to {dst}"
+                        )
                         msg = create_message(
                             "INVITE",
                             self.localip,
@@ -358,7 +373,10 @@ class SipInvite:
                             print(f"{self.c.YELLOW}{msg}")
 
                         if self.ofile != "":
-                            fw.write("[=>] Request INVITE from %s to %s\n" % (src, dst))
+                            fw.write(
+                                "[=>] Request INVITE from %s to %s\n"
+                                % (src, dst)
+                            )
                             if self.verbose == 1:
                                 fw.write(msg + "\n")
 
@@ -403,7 +421,9 @@ class SipInvite:
                 # receive 200 Ok - call answered
                 if headers["response_code"] == "200":
                     # send ACK
-                    print(f"{self.c.YELLOW}[=>] Request ACK from {src} to {dst}")
+                    print(
+                        f"{self.c.YELLOW}[=>] Request ACK from {src} to {dst}"
+                    )
                     msg = create_message(
                         "ACK",
                         self.localip,
@@ -439,7 +459,9 @@ class SipInvite:
                         print(f"{self.c.YELLOW}{msg}")
 
                     if self.ofile != "":
-                        fw.write("[=>] Request ACK from %s to %s\n" % (src, dst))
+                        fw.write(
+                            "[=>] Request ACK from %s to %s\n" % (src, dst)
+                        )
                         if self.verbose == 1:
                             fw.write(msg + "\n")
 
@@ -450,7 +472,9 @@ class SipInvite:
 
                     if self.transfer != "":
                         # send REFER
-                        print(f"{self.c.YELLOW}[=>] Request REFER from {src} to {dst}")
+                        print(
+                            f"{self.c.YELLOW}[=>] Request REFER from {src} to {dst}"
+                        )
                         msg = create_message(
                             "REFER",
                             self.localip,
@@ -485,7 +509,10 @@ class SipInvite:
                             print(f"{self.c.YELLOW}{msg}")
 
                         if self.ofile != "":
-                            fw.write("[=>] Request REFER from %s to %s\n" % (src, dst))
+                            fw.write(
+                                "[=>] Request REFER from %s to %s\n"
+                                % (src, dst)
+                            )
                             if self.verbose == 1:
                                 fw.write(msg + "\n")
 
@@ -560,7 +587,9 @@ class SipInvite:
                         totag,
                     )
 
-                    print(f"{self.c.YELLOW}[=>] Sending 200 Ok from {src} to {dst}\n")
+                    print(
+                        f"{self.c.YELLOW}[=>] Sending 200 Ok from {src} to {dst}\n"
+                    )
 
                     if self.verbose == 1 and self.ofile == "":
                         print(f"{self.c.YELLOW}{msg}")
@@ -568,7 +597,9 @@ class SipInvite:
                     print(self.c.WHITE)
 
                     if self.ofile != "":
-                        fw.write("[=>] Sending 200 Ok from %s to %s\n" % (src, dst))
+                        fw.write(
+                            "[=>] Sending 200 Ok from %s to %s\n" % (src, dst)
+                        )
                         if self.verbose == 1:
                             fw.write(msg + "\n")
 
@@ -622,7 +653,11 @@ class SipInvite:
         logo = Logo("sipinvite")
         logo.print()
 
-        if self.auth_user != "" and self.auth_pwd != "" and self.from_user == "100":
+        if (
+            self.auth_user != ""
+            and self.auth_pwd != ""
+            and self.from_user == "100"
+        ):
             self.from_user = self.auth_user
 
         # create a list of callers
@@ -657,13 +692,17 @@ class SipInvite:
             f"{self.c.BWHITE}[✓] Target: {self.c.GREEN}{self.ip}{self.c.WHITE}:{self.c.GREEN}{self.rport}{self.c.WHITE}/{self.c.GREEN}{self.proto}"
         )
         if self.proxy != "":
-            print(f"{self.c.BWHITE}[✓] Outbound Proxy: {self.c.GREEN}{self.proxy}")
+            print(
+                f"{self.c.BWHITE}[✓] Outbound Proxy: {self.c.GREEN}{self.proxy}"
+            )
         if (
             self.domain != ""
             and self.domain != str(self.ip)
             and self.domain != self.host
         ):
-            print(f"{self.c.BWHITE}[✓] Customized Domain: {self.c.GREEN}{self.domain}")
+            print(
+                f"{self.c.BWHITE}[✓] Customized Domain: {self.c.GREEN}{self.domain}"
+            )
         if self.contact_domain != "":
             print(
                 f"{self.c.BWHITE}[✓] Customized Contact Domain: {self.c.GREEN}{self.contact_domain}"
@@ -688,7 +727,9 @@ class SipInvite:
             print(
                 f"{self.c.BWHITE}[✓] Customized User-Agent: {self.c.GREEN}{self.user_agent}"
             )
-        print(f"{self.c.BWHITE}[✓] Total threads: {self.c.GREEN}{str(nthreads)}")
+        print(
+            f"{self.c.BWHITE}[✓] Total threads: {self.c.GREEN}{str(nthreads)}"
+        )
         print(f"{self.c.BWHITE}[✓] Call From: {self.c.GREEN}{self.from_user}")
         print(f"{self.c.BWHITE}[✓] Call To: {self.c.GREEN}{self.to_user}")
         print(self.c.WHITE)
@@ -713,9 +754,13 @@ class SipInvite:
         if self.ofile != "":
             fw = open(self.ofile, "w")
 
-            fw.write("[✓] Target: %s:%s/%s\n" % (self.ip, self.rport, self.proto))
+            fw.write(
+                "[✓] Target: %s:%s/%s\n" % (self.ip, self.rport, self.proto)
+            )
             if self.proxy != "":
-                fw.write("[✓] Outbound Proxy: " + self.c.GREEN + "%s" % self.proxy)
+                fw.write(
+                    "[✓] Outbound Proxy: " + self.c.GREEN + "%s" % self.proxy
+                )
             if (
                 self.domain != ""
                 and self.domain != str(self.ip)
@@ -723,7 +768,9 @@ class SipInvite:
             ):
                 fw.write("[✓] Customized Domain: %s\n" % self.domain)
             if self.contact_domain != "":
-                fw.write("[✓] Customized Contact Domain: %s\n" % self.contact_domain)
+                fw.write(
+                    "[✓] Customized Contact Domain: %s\n" % self.contact_domain
+                )
             if self.from_name != "":
                 fw.write("[✓] Customized From Name: %s\n" % self.from_name)
             if self.from_domain != "":
