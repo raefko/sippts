@@ -51,7 +51,9 @@ def get_sippts_args():
         current_version = local_version
 
     if local_version != current_version:
-        local_version_status = BRED + """ (last version """ + current_version + """)"""
+        local_version_status = (
+            BRED + """ (last version """ + current_version + """)"""
+        )
     else:
         local_version_status = BWHITE + """ (updated)"""
 
@@ -129,7 +131,9 @@ def get_sippts_args():
     parser._positionals.title = "Commands"
     parser._optionals.title = "Options"
     subparsers = parser.add_subparsers(dest="command")
-    parser.add_argument("-up", help="Update scripts", dest="update", action="count")
+    parser.add_argument(
+        "-up", help="Update scripts", dest="update", action="count"
+    )
 
     ##########
     # videos #
@@ -143,7 +147,10 @@ def get_sippts_args():
 
     mode = parser_video.add_argument_group("Video")
     mode.add_argument(
-        "-b", help="Scanning, enumeration and cracking", dest="basic", action="count"
+        "-b",
+        help="Scanning, enumeration and cracking",
+        dest="basic",
+        action="count",
     )
     mode.add_argument(
         "-d",
@@ -152,7 +159,10 @@ def get_sippts_args():
         action="count",
     )
     mode.add_argument(
-        "-l", help="SIP Digest Leak vulnerability attack", dest="leak", action="count"
+        "-l",
+        help="SIP Digest Leak vulnerability attack",
+        dest="leak",
+        action="count",
     )
     mode.add_argument(
         "-s", help="Spoofing and sniffing data", dest="spoof", action="count"
@@ -189,7 +199,7 @@ Usage examples:
 """
         + WHITE
         + """     sippts astami -i 192.168.0.0/24
-"""
+""",
     )
 
     target = parser_astami.add_argument_group("Target")
@@ -253,12 +263,20 @@ Usage examples:
     )
 
     log = parser_astami.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
     log.add_argument(
-        "-vv", help="Increase more verbosity", dest="more_verbose", action="count"
+        "-v", help="Increase verbosity", dest="verbose", action="count"
     )
     log.add_argument(
-        "-nocolor", help="Show result without colors", dest="nocolor", action="count"
+        "-vv",
+        help="Increase more verbosity",
+        dest="more_verbose",
+        action="count",
+    )
+    log.add_argument(
+        "-nocolor",
+        help="Show result without colors",
+        dest="nocolor",
+        action="count",
     )
     log.add_argument(
         "-o",
@@ -508,12 +526,20 @@ Usage examples:
     )
 
     log = parser_scan.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
     log.add_argument(
-        "-vv", help="Increase more verbosity", dest="more_verbose", action="count"
+        "-v", help="Increase verbosity", dest="verbose", action="count"
     )
     log.add_argument(
-        "-nocolor", help="Show result without colors", dest="nocolor", action="count"
+        "-vv",
+        help="Increase more verbosity",
+        dest="more_verbose",
+        action="count",
+    )
+    log.add_argument(
+        "-nocolor",
+        help="Show result without colors",
+        dest="nocolor",
+        action="count",
     )
     log.add_argument(
         "-o",
@@ -531,7 +557,9 @@ Usage examples:
         dest="oifile",
         default="",
     )
-    log.add_argument("-cve", help="Show possible CVEs", dest="cve", action="count")
+    log.add_argument(
+        "-cve", help="Show possible CVEs", dest="cve", action="count"
+    )
 
     other = parser_scan.add_argument_group("Other options")
     other.add_argument(
@@ -553,7 +581,9 @@ Usage examples:
     other.add_argument(
         "-ping", help="Ping host before scan", dest="ping", action="count"
     )
-    other.add_argument("-fp", help="Try to fingerprinting", dest="fp", action="count")
+    other.add_argument(
+        "-fp", help="Try to fingerprinting", dest="fp", action="count"
+    )
     other.add_argument(
         "-random", help="Randomize target hosts", dest="random", action="count"
     )
@@ -612,7 +642,11 @@ Usage examples:
 
     target = parser_exten.add_argument_group("Target")
     target.add_argument(
-        "-i", metavar="IP|HOST", type=str, help="Target IP address", dest="ipaddr"
+        "-i",
+        metavar="IP|HOST",
+        type=str,
+        help="Target IP address",
+        dest="ipaddr",
     )
     target.add_argument(
         "-r",
@@ -700,9 +734,14 @@ Usage examples:
     )
 
     log = parser_exten.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
     log.add_argument(
-        "-vv", help="Increase more verbosity", dest="more_verbose", action="count"
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
+    log.add_argument(
+        "-vv",
+        help="Increase more verbosity",
+        dest="more_verbose",
+        action="count",
     )
     log.add_argument(
         "-rc",
@@ -712,7 +751,10 @@ Usage examples:
         default="",
     )
     log.add_argument(
-        "-nocolor", help="Show result without colors", dest="nocolor", action="count"
+        "-nocolor",
+        help="Show result without colors",
+        dest="nocolor",
+        action="count",
     )
     log.add_argument(
         "-o",
@@ -781,7 +823,11 @@ Usage examples:
 
     target = parser_rcrack.add_argument_group("Target")
     target.add_argument(
-        "-i", metavar="IP|HOST", type=str, help="Target IP address", dest="ipaddr"
+        "-i",
+        metavar="IP|HOST",
+        type=str,
+        help="Target IP address",
+        dest="ipaddr",
     )
     target.add_argument(
         "-r",
@@ -876,9 +922,14 @@ Usage examples:
     )
 
     log = parser_rcrack.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
     log.add_argument(
-        "-nocolor", help="Show result without colors", dest="nocolor", action="count"
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
+    log.add_argument(
+        "-nocolor",
+        help="Show result without colors",
+        dest="nocolor",
+        action="count",
     )
 
     other = parser_rcrack.add_argument_group("Other options")
@@ -939,7 +990,11 @@ Usage examples:
 
     target = parser_send.add_argument_group("Target")
     target.add_argument(
-        "-i", metavar="IP|HOST", type=str, help="Target IP address", dest="ipaddr"
+        "-i",
+        metavar="IP|HOST",
+        type=str,
+        help="Target IP address",
+        dest="ipaddr",
     )
     target.add_argument(
         "-template",
@@ -1064,7 +1119,12 @@ Usage examples:
         default="",
     )
     headers.add_argument(
-        "-tt", metavar="TO_TAG", type=str, help="To Tag", dest="to_tag", default=""
+        "-tt",
+        metavar="TO_TAG",
+        type=str,
+        help="To Tag",
+        dest="to_tag",
+        default="",
     )
     headers.add_argument(
         "-ua",
@@ -1099,7 +1159,10 @@ Usage examples:
         default="",
     )
     headers.add_argument(
-        "-nc", help="Don't send Contact header", dest="nocontact", action="count"
+        "-nc",
+        help="Don't send Contact header",
+        dest="nocontact",
+        action="count",
     )
     headers.add_argument(
         "-branch",
@@ -1118,12 +1181,18 @@ Usage examples:
         default="",
     )
     headers.add_argument(
-        "-cseq", metavar="SEQ", help="Customize Seq number", dest="cseq", default=""
+        "-cseq",
+        metavar="SEQ",
+        help="Customize Seq number",
+        dest="cseq",
+        default="",
     )
     headers.add_argument(
         "-sdp", help="Send SDP in INVITE messages", dest="sdp", action="count"
     )
-    headers.add_argument("-sdes", help="Send SDES in SDP", dest="sdes", action="count")
+    headers.add_argument(
+        "-sdes", help="Send SDES in SDP", dest="sdes", action="count"
+    )
     headers.add_argument(
         "-digest",
         metavar="DIGEST",
@@ -1152,9 +1221,14 @@ Usage examples:
     )
 
     log = parser_send.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
     log.add_argument(
-        "-nocolor", help="Show result without colors", dest="nocolor", action="count"
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
+    log.add_argument(
+        "-nocolor",
+        help="Show result without colors",
+        dest="nocolor",
+        action="count",
     )
     log.add_argument(
         "-o",
@@ -1223,7 +1297,11 @@ Usage examples:
 
     target = parser_wssend.add_argument_group("Target")
     target.add_argument(
-        "-i", metavar="IP|HOST", type=str, help="Target IP address", dest="ipaddr"
+        "-i",
+        metavar="IP|HOST",
+        type=str,
+        help="Target IP address",
+        dest="ipaddr",
     )
     target.add_argument(
         "-r",
@@ -1334,7 +1412,12 @@ Usage examples:
         default="",
     )
     headers.add_argument(
-        "-tt", metavar="TO_TAG", type=str, help="To Tag", dest="to_tag", default=""
+        "-tt",
+        metavar="TO_TAG",
+        type=str,
+        help="To Tag",
+        dest="to_tag",
+        default="",
     )
     headers.add_argument(
         "-ua",
@@ -1362,7 +1445,9 @@ Usage examples:
     )
 
     log = parser_wssend.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
+    log.add_argument(
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
 
     other = parser_wssend.add_argument_group("Other options")
     other.add_argument(
@@ -1414,7 +1499,11 @@ Usage examples:
 
     target = parser_enumerate.add_argument_group("Target")
     target.add_argument(
-        "-i", metavar="IP|HOST", type=str, help="Target IP address", dest="ipaddr"
+        "-i",
+        metavar="IP|HOST",
+        type=str,
+        help="Target IP address",
+        dest="ipaddr",
     )
     target.add_argument(
         "-r",
@@ -1525,7 +1614,9 @@ Usage examples:
     )
 
     log = parser_enumerate.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
+    log.add_argument(
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
 
     other = parser_enumerate.add_argument_group("Other options")
     other.add_argument(
@@ -1728,7 +1819,9 @@ Usage examples:
     headers.add_argument(
         "-sdp", help="Send SDP in INVITE messages", dest="sdp", action="count"
     )
-    headers.add_argument("-sdes", help="Send SDES in SDP", dest="sdes", action="count")
+    headers.add_argument(
+        "-sdes", help="Send SDES in SDP", dest="sdes", action="count"
+    )
 
     auth = parser_leak.add_argument_group("Auth")
     auth.add_argument(
@@ -1757,7 +1850,9 @@ Usage examples:
     )
 
     log = parser_leak.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
+    log.add_argument(
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
     log.add_argument(
         "-o",
         metavar="FILE",
@@ -1785,7 +1880,10 @@ Usage examples:
         default="",
     )
     other.add_argument(
-        "-ping", help="Ping host before send attack", dest="ping", action="count"
+        "-ping",
+        help="Ping host before send attack",
+        dest="ping",
+        action="count",
     )
     other.add_argument(
         "-h", "--help", help="Show this help", dest="help", action="count"
@@ -1828,7 +1926,11 @@ Usage examples:
 
     target = parser_ping.add_argument_group("Target")
     target.add_argument(
-        "-i", metavar="IP|HOST", type=str, help="Target IP address", dest="ipaddr"
+        "-i",
+        metavar="IP|HOST",
+        type=str,
+        help="Target IP address",
+        dest="ipaddr",
     )
     target.add_argument(
         "-r",
@@ -1939,7 +2041,12 @@ Usage examples:
         default="",
     )
     headers.add_argument(
-        "-tt", metavar="TO_TAG", type=str, help="To Tag", dest="to_tag", default=""
+        "-tt",
+        metavar="TO_TAG",
+        type=str,
+        help="To Tag",
+        dest="to_tag",
+        default="",
     )
     headers.add_argument(
         "-ua",
@@ -1982,7 +2089,11 @@ Usage examples:
         default="",
     )
     headers.add_argument(
-        "-cseq", metavar="SEQ", help="Customize Seq number", dest="cseq", default=""
+        "-cseq",
+        metavar="SEQ",
+        help="Customize Seq number",
+        dest="cseq",
+        default="",
     )
     headers.add_argument(
         "-digest",
@@ -2085,7 +2196,11 @@ Usage examples:
 
     target = parser_invite.add_argument_group("Target")
     target.add_argument(
-        "-i", metavar="IP|HOST", type=str, help="Target IP address", dest="ipaddr"
+        "-i",
+        metavar="IP|HOST",
+        type=str,
+        help="Target IP address",
+        dest="ipaddr",
     )
     target.add_argument(
         "-r",
@@ -2223,7 +2338,9 @@ Usage examples:
         dest="nosdp",
         action="count",
     )
-    headers.add_argument("-sdes", help="Send SDES in SDP", dest="sdes", action="count")
+    headers.add_argument(
+        "-sdes", help="Send SDES in SDP", dest="sdes", action="count"
+    )
 
     auth = parser_invite.add_argument_group("Auth")
     auth.add_argument(
@@ -2244,9 +2361,14 @@ Usage examples:
     )
 
     log = parser_invite.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
     log.add_argument(
-        "-nocolor", help="Show result without colors", dest="nocolor", action="count"
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
+    log.add_argument(
+        "-nocolor",
+        help="Show result without colors",
+        dest="nocolor",
+        action="count",
     )
     log.add_argument(
         "-o",
@@ -2434,9 +2556,11 @@ Usage examples:
         dest="max",
         default=8,
     )
-    
+
     log = parser_dcrack.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
+    log.add_argument(
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
 
     options = parser_dcrack.add_argument_group("Other options")
     options.add_argument(
@@ -2489,7 +2613,11 @@ Usage examples:
 
     target = parser_flood.add_argument_group("Target")
     target.add_argument(
-        "-i", metavar="IP|HOST", type=str, help="Target IP address", dest="ipaddr"
+        "-i",
+        metavar="IP|HOST",
+        type=str,
+        help="Target IP address",
+        dest="ipaddr",
     )
     target.add_argument(
         "-r",
@@ -2507,6 +2635,14 @@ Usage examples:
         dest="proto",
         choices=["UDP", "TCP", "TLS"],
         default="udp",
+    )
+    target.add_argument(
+        "-proxy",
+        metavar="IP:PORT",
+        type=str,
+        help="Use an outbound proxy (ex: 192.168.1.1 or 192.168.1.1:5070)",
+        dest="proxy",
+        default="",
     )
 
     headers = parser_flood.add_argument_group("Headers")
@@ -2601,7 +2737,9 @@ Usage examples:
     )
 
     log = parser_flood.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
+    log.add_argument(
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
     log.add_argument(
         "-o",
         metavar="FILE",
@@ -2612,7 +2750,9 @@ Usage examples:
     )
 
     fuzz = parser_flood.add_argument_group("Fuzzing")
-    fuzz.add_argument("-b", help="Send malformed headers", dest="bad", action="count")
+    fuzz.add_argument(
+        "-b", help="Send malformed headers", dest="bad", action="count"
+    )
     fuzz.add_argument(
         "-charset",
         metavar="CHARSET",
@@ -2695,7 +2835,9 @@ Usage examples:
     )
 
     log = parser_sniff.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
+    log.add_argument(
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
     log.add_argument(
         "-o",
         metavar="FILE",
@@ -2758,9 +2900,14 @@ Usage examples:
     )
 
     log = parser_spoof.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
     log.add_argument(
-        "-vv", help="Increase more verbosity", dest="more_verbose", action="count"
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
+    log.add_argument(
+        "-vv",
+        help="Increase more verbosity",
+        dest="more_verbose",
+        action="count",
     )
 
     other = parser_spoof.add_argument_group("Other options")
@@ -2797,8 +2944,12 @@ Usage examples:
         dest="file",
         default="",
     )
-    target.add_argument("-sip", help="Show SIP frames", dest="sip", action="count")
-    target.add_argument("-rtp", help="Show RTP frames", dest="rtp", action="count")
+    target.add_argument(
+        "-sip", help="Show SIP frames", dest="sip", action="count"
+    )
+    target.add_argument(
+        "-rtp", help="Show RTP frames", dest="rtp", action="count"
+    )
     target.add_argument(
         "-auth", help="Show SIP authentications", dest="auth", action="count"
     )
@@ -2813,7 +2964,9 @@ Usage examples:
     )
 
     log = parser_pcapdump.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
+    log.add_argument(
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
     log.add_argument(
         "-o",
         metavar="FOLDER",
@@ -2825,7 +2978,10 @@ Usage examples:
 
     other = parser_pcapdump.add_argument_group("Other options")
     other.add_argument(
-        "-nocolor", help="Show result without colors", dest="nocolor", action="count"
+        "-nocolor",
+        help="Show result without colors",
+        dest="nocolor",
+        action="count",
     )
     other.add_argument(
         "-h", "--help", help="Show this help", dest="help", action="count"
@@ -3030,11 +3186,17 @@ Payloads
     )
 
     log = parser_rtpbleedflood.add_argument_group("Log")
-    log.add_argument("-v", help="Increase verbosity", dest="verbose", action="count")
+    log.add_argument(
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
 
     other = parser_rtpbleedflood.add_argument_group("Other options")
     other.add_argument(
-        "-r", metavar="PORT", type=int, help="Port number to flood", dest="rport"
+        "-r",
+        metavar="PORT",
+        type=int,
+        help="Port number to flood",
+        dest="rport",
     )
     other.add_argument(
         "-p",
@@ -3083,7 +3245,11 @@ Payloads
 
     other = parser_rtpbleedinject.add_argument_group("Other options")
     other.add_argument(
-        "-r", metavar="PORT", type=int, help="Port number to flood", dest="rport"
+        "-r",
+        metavar="PORT",
+        type=int,
+        help="Port number to flood",
+        dest="rport",
     )
     other.add_argument(
         "-p",
@@ -3133,7 +3299,10 @@ Payloads
                 "-H 'Cache-Control: no-cache, no-store'",
             ]
             result = subprocess.run(
-                command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
             )
 
             output = result.stdout
@@ -3273,7 +3442,9 @@ Payloads
                 "astami.py",
             )
             download_file(
-                giturl + "src/sippts/wssend.py", modulepath + "wssend.py", "wssend.py"
+                giturl + "src/sippts/wssend.py",
+                modulepath + "wssend.py",
+                "wssend.py",
             )
 
             print(f"{BYELLOW}SIPPTS has been updated")
@@ -3290,7 +3461,10 @@ Payloads
                 "-H 'Cache-Control: no-cache, no-store'",
             ]
             result = subprocess.run(
-                command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+                command,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
             )
 
             output = result.stdout
@@ -3321,14 +3495,21 @@ Payloads
         if args.help == 1:
             parser_video.print_help()
             exit()
-        if not args.basic and not args.digest and not args.leak and not args.spoof:
+        if (
+            not args.basic
+            and not args.digest
+            and not args.leak
+            and not args.spoof
+        ):
             parser_video.print_help()
             print(RED)
             print("Param error!")
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-b{WHITE} or {GREEN}-d{WHITE} or {GREEN}-l{WHITE} or {GREEN}-s"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         BASIC = args.basic
@@ -3348,7 +3529,9 @@ Payloads
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>{WHITE} or {GREEN}-f <FILE>"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -3386,7 +3569,7 @@ Payloads
             LOCALIP,
             USER,
             PWD,
-            CMD
+            CMD,
         )
     elif COMMAND == "scan":
         if args.help == 1:
@@ -3399,7 +3582,9 @@ Payloads
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>{WHITE} or {GREEN}-f <FILE>"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -3475,8 +3660,12 @@ Payloads
             parser_exten.print_help()
             print(RED)
             print("Param error!")
-            print(f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>")
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>"
+            )
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -3533,7 +3722,9 @@ Payloads
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>{WHITE} and {GREEN}-e <EXTEN>{WHITE} and {GREEN}-w <WORDLIST>"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -3582,8 +3773,12 @@ Payloads
             parser_send.print_help()
             print(RED)
             print("Param error!")
-            print(f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>")
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>"
+            )
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -3670,8 +3865,12 @@ Payloads
             parser_wssend.print_help()
             print(RED)
             print("Param error!")
-            print(f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>")
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>"
+            )
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -3726,8 +3925,12 @@ Payloads
             parser_enumerate.print_help()
             print(RED)
             print("Param error!")
-            print(f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>")
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>"
+            )
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -3777,7 +3980,9 @@ Payloads
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>{WHITE} or {GREEN}-f <FILE>"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -3846,8 +4051,12 @@ Payloads
             parser_ping.print_help()
             print(RED)
             print("Param error!")
-            print(f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>")
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>"
+            )
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -3920,8 +4129,12 @@ Payloads
             parser_invite.print_help()
             print(RED)
             print("Param error!")
-            print(f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>")
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>"
+            )
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -3993,7 +4206,9 @@ Payloads
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-f <FILE>{WHITE} and {GREEN}-o <FILE>"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         FILE = args.file
@@ -4008,17 +4223,25 @@ Payloads
             parser_dcrack.print_help()
             print(RED)
             print("Param error!")
-            print(f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-f <FILE>")
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-f <FILE>"
+            )
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
-        if (not args.bruteforce and not args.wordlist) or (args.bruteforce and args.wordlist):
+        if (not args.bruteforce and not args.wordlist) or (
+            args.bruteforce and args.wordlist
+        ):
             parser_dcrack.print_help()
             print(RED)
             print("Param error!")
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-bf{WHITE} or {GREEN}-w <FILE>"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         FILE = args.file
@@ -4043,7 +4266,7 @@ Payloads
             MIN,
             PREFIX,
             SUFFIX,
-            THREADS
+            THREADS,
         )
     elif COMMAND == "flood":
         if args.help == 1:
@@ -4053,20 +4276,29 @@ Payloads
             parser_flood.print_help()
             print(RED)
             print("Param error!")
-            print(f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>")
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>"
+            )
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
-        if (args.alphabet == 1 or args.min == 1 or args.max == 1) and args.bad == 0:
+        if (
+            args.alphabet == 1 or args.min == 1 or args.max == 1
+        ) and args.bad == 0:
             parser_flood.print_help()
             print(RED)
             print("Param error!")
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-b{WHITE} when select {GREEN}-charset / -min / -max"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
+        PROXY = args.proxy
         HOST = args.ipaddr
         RPORT = args.rport
         PROTO = args.proto
@@ -4092,6 +4324,7 @@ Payloads
         return (
             COMMAND,
             IPADDR,
+            PROXY,
             HOST,
             RPORT,
             PROTO,
@@ -4137,7 +4370,9 @@ Payloads
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>{WHITE} or {GREEN}-f <FILE>"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -4159,18 +4394,28 @@ Payloads
             print(RED)
             print("Param error!")
             print(
-                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-f <FILE>" + WHITE
+                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-f <FILE>"
+                + WHITE
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
-        if not args.sip and not args.rtp and not args.auth and not args.rtp_extract:
+        if (
+            not args.sip
+            and not args.rtp
+            and not args.auth
+            and not args.rtp_extract
+        ):
             parser_pcapdump.print_help()
             print(RED)
             print("Param error!")
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-sip{WHITE} or {GREEN}-rtp{WHITE} or {GREEN}-auth{WHITE} or {GREEN}-r"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         FILE = args.file
@@ -4182,7 +4427,17 @@ Payloads
         RTPEXTRACT = args.rtp_extract
         NOCOLOR = args.nocolor
 
-        return COMMAND, FILE, FOLDER, VERBOSE, RTPEXTRACT, NOCOLOR, SIP, RTP, AUTH
+        return (
+            COMMAND,
+            FILE,
+            FOLDER,
+            VERBOSE,
+            RTPEXTRACT,
+            NOCOLOR,
+            SIP,
+            RTP,
+            AUTH,
+        )
     elif COMMAND == "rtpbleed":
         if args.help == 1:
             parser_rtpbleed.print_help()
@@ -4192,7 +4447,9 @@ Payloads
             print(RED)
             print("Param error!")
             print(f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP>")
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -4203,7 +4460,7 @@ Payloads
             SP = SP + 1
         if EP % 2 != 0:
             EP = EP + 1
-        LOOPS = args.loops        
+        LOOPS = args.loops
         PAYLOAD = args.payload
         DELAY = args.delay
         OFILE = args.ofile
@@ -4217,7 +4474,9 @@ Payloads
             print(RED)
             print("Param error!")
             print(f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP>")
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -4242,7 +4501,9 @@ Payloads
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP>{WHITE} and {GREEN}-r <PORT>"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
@@ -4262,7 +4523,9 @@ Payloads
             print(
                 f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP>{WHITE} and {GREEN}-r <PORT>{WHITE} and {GREEN}-f <FILE>"
             )
-            print(f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help")
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
             exit()
 
         IPADDR = args.ipaddr
