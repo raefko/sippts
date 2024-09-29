@@ -49,7 +49,7 @@ def main():
             local_ip,
             user,
             pwd,
-            cmd
+            cmd,
         ) = params
 
         from sippts.astami import SipAstAMI
@@ -552,7 +552,7 @@ def main():
             min,
             prefix,
             suffix,
-            threads
+            threads,
         ) = params
 
         from sippts.sipdigestcrack import SipDigestCrack
@@ -572,6 +572,7 @@ def main():
         (
             cmd,
             ip,
+            proxy,
             host,
             rport,
             proto,
@@ -599,6 +600,7 @@ def main():
 
         s = SipFlood()
         s.ip = ip
+        s.proxy = proxy
         s.host = host
         s.rport = rport
         s.proto = proto
@@ -690,7 +692,9 @@ def main():
         s.gw = gw
         s.file = file
     elif params[0] == "pcapdump":
-        (cmd, file, folder, verbose, rtpextract, nocolor, sip, rtp, auth) = params
+        (cmd, file, folder, verbose, rtpextract, nocolor, sip, rtp, auth) = (
+            params
+        )
 
         from sippts.sippcapdump import SipPcapDump
 
