@@ -105,7 +105,7 @@ class SipFuzz:
         if self.rport == 5060 and self.proto == "TLS":
             self.rport = 5061
 
-        logo = Logo("sipflood")
+        logo = Logo("sipfuzz")
         logo.print()
 
         signal.signal(signal.SIGINT, self.signal_handler)
@@ -130,7 +130,7 @@ class SipFuzz:
         threads = []
         for i in range(self.nthreads):
             if not self.stop_event.is_set():
-                t = threading.Thread(target=self.flood)
+                t = threading.Thread(target=self.fuzz)
                 threads.append(t)
                 t.start()
 
@@ -157,10 +157,11 @@ class SipFuzz:
         logging.info("Received interrupt signal, shutting down...")
         self.stop_event.set()
 
-    def flood(self):
+    def fuzz(self):
         """
         Performs the fuzzing by sending SIP messages to the target.
         """
+        sock = None
         try:
             # Initialize socket
             sock = self.initialize_socket()
@@ -171,9 +172,10 @@ class SipFuzz:
                 msg, method_label = self.generate_message()
                 self.send_message(sock, msg, host, method_label)
         except Exception as e:
-            logging.error(f"An error occurred in flood thread: {e}")
+            logging.error(f"An error occurred in FUZZ thread: {e}")
         finally:
-            sock.close()
+            if sock:
+                sock.close()
 
     def initialize_socket(self):
         """
