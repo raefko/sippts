@@ -128,12 +128,13 @@ class SipFuzz:
             logging.info(f"Max length: {self.max}")
 
         threads = []
-        for i in range(self.nthreads):
+        for _ in range(self.nthreads):
             if not self.stop_event.is_set():
                 t = threading.Thread(target=self.fuzz)
                 threads.append(t)
                 t.start()
-
+        for t in threads:
+            t.join()
         # Use tqdm for progress bar
         total_requests = self.number if self.number > 0 else float("inf")
         with tqdm(
@@ -144,9 +145,6 @@ class SipFuzz:
                     pbar.update(self.count - pbar.n)
                     self.count_lock.release()
                 time.sleep(0.1)
-
-        for t in threads:
-            t.join()
 
         logging.info(f"Sent {self.count} messages")
 
