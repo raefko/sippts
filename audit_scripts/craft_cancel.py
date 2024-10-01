@@ -18,16 +18,7 @@ def extract_sip_info(interface, ip, port):
             print(sip_layer.field_names)
             if sip_layer.has_field("cseq_method"):
                 # Capture INVITE information
-                if sip_layer.cseq_method == "INVITE":
-                    invite_info["call_id"] = sip_layer.get_field_value(
-                        "call_id"
-                    )
-                    invite_info["via"] = sip_layer.get_field_value("via")
-                    invite_info["from"] = sip_layer.get_field_value("from")
-                    invite_info["to"] = sip_layer.get_field_value("to")
-                    invite_info["cseq"] = sip_layer.get_field_value("cseq")
-                # Capture 200 OK after INVITE (to get tag in To header)
-                elif (
+                if (
                     sip_layer.cseq_method == "INVITE"
                     and sip_layer.get_field_value("status_code") == "200"
                 ):
@@ -36,7 +27,15 @@ def extract_sip_info(interface, ip, port):
                     )  # Update 'To' with tag
                     # Once we have both INVITE and 200 OK, we can stop
                     break
-
+                elif sip_layer.cseq_method == "INVITE":
+                    invite_info["call_id"] = sip_layer.get_field_value(
+                        "call_id"
+                    )
+                    invite_info["via"] = sip_layer.get_field_value("via")
+                    invite_info["from"] = sip_layer.get_field_value("from")
+                    invite_info["to"] = sip_layer.get_field_value("to")
+                    invite_info["cseq"] = sip_layer.get_field_value("cseq")
+                # Capture 200 OK after INVITE (to get tag in To header)
     cap.close()
     return invite_info
 
