@@ -2859,8 +2859,8 @@ Usage examples:
         type=str.upper,
         help="SIP method: options, invite, register (default: options)",
         dest="method",
-        choices=["OPTIONS", "REGISTER", "INVITE"],
-        default="options",
+        choices=["OPTIONS", "REGISTER", "INVITE", "FUZZ"],
+        default="FUZZ",
     )
     headers.add_argument(
         "-d",
@@ -4491,8 +4491,13 @@ Payloads
             )
             exit()
         if (
-            args.alphabet == 1 or args.min == 1 or args.max == 1
-        ) and args.bad == 0:
+            (
+                (args.alphabet == 1 or args.min == 1 or args.max == 1)
+                and args.bad == 0
+            )
+            or args.bad == 0
+            or args.bad == None
+        ):
             print("Forgot to add -b but it's okay i am doing it for you")
             args.bad = 1
 
