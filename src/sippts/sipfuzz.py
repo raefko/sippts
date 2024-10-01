@@ -199,6 +199,7 @@ class SipFuzz:
             lport = get_free_port()
             sock.bind((bind_ip, lport))
             print("debug sock2", sock)
+            sock.settimeout(1)
             if self.proto == "TCP":
                 print("proto tcp")
                 print("data host", self.get_host())
@@ -232,7 +233,7 @@ class SipFuzz:
         """
         if ":" in proxy:
             proxy_ip, proxy_port = proxy.split(":")
-            return (proxy_ip, int(proxy_port))
+            return (str(proxy_ip), int(proxy_port))
         else:
             return (proxy, 5060)
 
