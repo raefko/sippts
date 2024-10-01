@@ -164,14 +164,15 @@ class SipFuzz:
         sock = None
         try:
             # Initialize socket
-            sock = self.initialize_socket()
-            print("sock", sock)
             host = self.get_host()
             while not self.stop_event.is_set() and (
                 self.count < self.number or self.number == 0
             ):
+                sock = self.initialize_socket()
                 msg, method_label = self.generate_message()
                 self.send_message(sock, msg, host, method_label)
+                if sock:
+                    sock.close()
         except Exception as e:
             logging.error(f"An error occurred in FUZZ thread: {e}")
         finally:
