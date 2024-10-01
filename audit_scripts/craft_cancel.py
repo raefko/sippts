@@ -34,9 +34,7 @@ def extract_sip_info(interface, ip, port):
                     invite_info["to"] = sip_layer.get_field_value(
                         "to"
                     )  # Update 'To' with tag
-
-                # Once we have both INVITE and 200 OK, we can stop
-                if "call_id" in invite_info and "to" in invite_info:
+                    # Once we have both INVITE and 200 OK, we can stop
                     break
 
     cap.close()
