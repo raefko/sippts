@@ -21,12 +21,12 @@ import ipaddress
 from tqdm import tqdm
 import fcntl
 
-from lib.color import Color
-from lib.functions import (
+from .lib.color import Color
+from .lib.functions import (
     create_message,
     get_free_port,
 )
-from lib.logos import Logo
+from .lib.logos import Logo
 
 
 class SipFuzz:
@@ -92,9 +92,6 @@ class SipFuzz:
         Starts the fuzzing process.
         """
         # Validate inputs
-        if not self.is_valid_ip(self.ip):
-            logging.error("Invalid IP address provided.")
-            sys.exit(1)
 
         if self.method not in self.supported_methods:
             logging.error(f"Method {self.method} is not supported.")

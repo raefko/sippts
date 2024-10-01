@@ -2804,21 +2804,21 @@ Usage examples:
     parser_fuzz = subparsers.add_parser(
         "fuzz",
         formatter_class=argparse.RawTextHelpFormatter,
-        help="Flood a SIP server",
+        help="FUZZ a SIP server",
         add_help=False,
         description=RED
-        + Logo("sipflood").get_logo()
+        + Logo("sipfuzz").get_logo()
         + YELLOW
         + """
   Module """
         + BYELLOW
-        + """flood"""
+        + """FUZZ"""
         + YELLOW
-        + """ performs a flood of a server by sending messages with a selected method."""
+        + """ performs a FUZZING of a server by sending messages with a selected method."""
         + WHITE,
     )
 
-    target = parser_flood.add_argument_group("Target")
+    target = parser_fuzz.add_argument_group("Target")
     target.add_argument(
         "-i",
         metavar="IP|HOST",
@@ -2852,7 +2852,7 @@ Usage examples:
         default="",
     )
 
-    headers = parser_flood.add_argument_group("Headers")
+    headers = parser_fuzz.add_argument_group("Headers")
     headers.add_argument(
         "-m",
         metavar="METHOD",
@@ -2943,7 +2943,7 @@ Usage examples:
         default="",
     )
 
-    log = parser_flood.add_argument_group("Log")
+    log = parser_fuzz.add_argument_group("Log")
     log.add_argument(
         "-v", help="Increase verbosity", dest="verbose", action="count"
     )
@@ -2956,7 +2956,7 @@ Usage examples:
         default="",
     )
 
-    fuzz = parser_flood.add_argument_group("Fuzzing")
+    fuzz = parser_fuzz.add_argument_group("Fuzzing")
     fuzz.add_argument(
         "-b", help="Send malformed headers", dest="bad", action="count"
     )
@@ -2984,7 +2984,7 @@ Usage examples:
         default=1000,
     )
 
-    other = parser_flood.add_argument_group("Other options")
+    other = parser_fuzz.add_argument_group("Other options")
     other.add_argument(
         "-th",
         metavar="THREADS",
