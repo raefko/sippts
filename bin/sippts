@@ -622,6 +622,64 @@ def main():
         s.alphabet = alphabet
         s.max = max
         s.min = min
+    elif params[0] == "fuzz":
+        (
+            cmd,
+            ip,
+            proxy,
+            host,
+            rport,
+            proto,
+            method,
+            domain,
+            contact_domain,
+            from_name,
+            from_user,
+            from_domain,
+            to_name,
+            to_user,
+            to_domain,
+            digest,
+            user_agent,
+            nthreads,
+            verbose,
+            number,
+            bad,
+            alphabet,
+            max,
+            min,
+        ) = params
+
+        from sippts.sipfuzz import SipFuzz
+        import argparse
+
+        args = argparse.Namespace(
+            ip=ip,
+            rport=rport,
+            proto=proto,
+            method=method,
+            nthreads=nthreads,
+            number=number,
+            verbose=verbose,
+            bad=bad,
+            proxy=proxy,
+            route="",
+            domain=domain,
+            contact_domain=contact_domain,
+            from_user=from_user,
+            from_name=from_name,
+            from_domain=from_domain,
+            to_user=to_user,
+            to_name=to_name,
+            to_domain=to_domain,
+            user_agent=user_agent,
+            digest=digest,
+            alphabet=alphabet,
+            min_length=min,
+            max_length=max,
+        )
+
+        s = SipFuzz(args)
     elif params[0] == "wssend":
         (
             cmd,
