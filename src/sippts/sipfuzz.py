@@ -92,7 +92,7 @@ class SipFuzz:
         Starts the fuzzing process.
         """
         # Validate inputs
-
+        print("self.bad", self.bad)
         if self.method not in self.supported_methods:
             logging.error(f"Method {self.method} is not supported.")
             sys.exit(1)
@@ -191,20 +191,15 @@ class SipFuzz:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             else:
                 raise ValueError(f"Unsupported protocol: {self.proto}")
-            print("debug sock", sock)
             fcntl.fcntl(sock, fcntl.F_SETFL, os.O_NONBLOCK)
 
             # Bind to a free port
             bind_ip = "0.0.0.0"
             lport = get_free_port()
             sock.bind((bind_ip, lport))
-            print("debug sock2", sock)
             sock.settimeout(1)
             if self.proto == "TCP":
-                print("proto tcp")
-                print("data host", self.get_host())
                 sock.connect(self.get_host())
-                print("debug sock3", sock)
             elif self.proto == "TLS":
                 context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
                 context.check_hostname = False
@@ -246,9 +241,9 @@ class SipFuzz:
             method = random.choice(self.supported_methods)
             if method == "FUZZ":
                 method = self.random_string()
-
             message_params = {
                 "method": method,
+                "ip_sdp": self.random_string(),  # Added missing parameter
                 "contactdomain": self.random_string(),
                 "fromuser": self.random_string(),
                 "fromname": self.random_string(),
@@ -271,6 +266,10 @@ class SipFuzz:
                 "withsdp": random.randint(1, 2),
                 "via": self.random_string(),
                 "rr": self.random_string(),
+                "ppi": self.random_string(),  # Added missing parameter
+                "pai": self.random_string(),  # Added missing parameter
+                "header": self.random_string(),  # Added missing parameter
+                "withcontact": random.randint(1, 2),  # Added missing parameter
             }
             msg = create_message(**message_params)
             method_label = method
@@ -278,6 +277,7 @@ class SipFuzz:
             # Use specified values
             message_params = {
                 "method": self.method,
+                "ip_sdp": "",  # Added missing parameter
                 "contactdomain": self.contact_domain or self.ip,
                 "fromuser": self.from_user or "100",
                 "fromname": self.from_name or "",
@@ -300,6 +300,10 @@ class SipFuzz:
                 "withsdp": 0,
                 "via": "",
                 "rr": self.route or "",
+                "ppi": "",  # Added missing parameter
+                "pai": "",  # Added missing parameter
+                "header": "",  # Added missing parameter
+                "withcontact": 0,  # Added missing parameter
             }
             msg = create_message(**message_params)
             method_label = self.method
