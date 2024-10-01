@@ -1,7 +1,5 @@
 import pyshark
-from scapy.all import *
-from scapy.layers.inet import IP, TCP
-from scapy.layers.sip import SIP, SIPRequest
+import socket
 
 
 def extract_sip_info(interface, ip, port):
@@ -50,18 +48,22 @@ def craft_cancel_message(invite_info):
     return cancel_message
 
 
-def send_cancel_message(cancel_message, dst_ip, dst_port):
-    if not cancel_message:
-        print("No CANCEL message to send.")
-        return
+def send_cancel_message(sip_message, sip_server_ip, sip_server_port):
+    try:
+        # Create a TCP socket
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as tcp_socket:
+            # Connect to the SIP server
+            tcp_socket.connect((sip_server_ip, sip_server_port))
 
-    ip_layer = IP(dst=dst_ip)
-    tcp_layer = TCP(dport=dst_port)
-    sip_layer = SIP(cancel_message)
+            # Send the SIP message over TCP
+            tcp_socket.sendall(sip_message.encode("utf-8"))
 
-    packet = ip_layer / tcp_layer / sip_layer
-    send(packet)
-    print("CANCEL message sent.")
+            # Optionally, receive and print the server's response (e.g., 200 OK or 487 Request Terminated)
+            response = tcp_socket.recv(4096)  # Adjust buffer size as necessary
+            print("Received response from server:\n", response.decode("utf-8"))
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 
 # Example usage
@@ -69,7 +71,7 @@ interface = "any"  # e.g., 'eth0' or 'en0'
 source_ip = "10.213.57.101"
 source_port = "5060"
 destination_ip = "10.213.57.102"
-destination_port = "5060"
+destination_port = 5060
 
 invite_info = extract_sip_info(interface, source_ip, source_port)
 cancel_message = craft_cancel_message(invite_info)
