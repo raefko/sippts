@@ -165,6 +165,7 @@ class SipFuzz:
         try:
             # Initialize socket
             sock = self.initialize_socket()
+            print("sock", sock)
             host = self.get_host()
             while not self.stop_event.is_set() and (
                 self.count < self.number or self.number == 0
@@ -190,16 +191,19 @@ class SipFuzz:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             else:
                 raise ValueError(f"Unsupported protocol: {self.proto}")
-
+            print("debug sock", sock)
             fcntl.fcntl(sock, fcntl.F_SETFL, os.O_NONBLOCK)
 
             # Bind to a free port
             bind_ip = "0.0.0.0"
             lport = get_free_port()
             sock.bind((bind_ip, lport))
-
+            print("debug sock2", sock)
             if self.proto == "TCP":
+                print("proto tcp")
+                print("data host", self.get_host())
                 sock.connect(self.get_host())
+                print("debug sock3", sock)
             elif self.proto == "TLS":
                 context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
                 context.check_hostname = False
