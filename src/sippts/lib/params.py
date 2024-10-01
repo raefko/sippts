@@ -2799,6 +2799,213 @@ Usage examples:
     )
 
     #################
+    # fuzz command #
+    #################
+    parser_fuzz = subparsers.add_parser(
+        "fuzz",
+        formatter_class=argparse.RawTextHelpFormatter,
+        help="Flood a SIP server",
+        add_help=False,
+        description=RED
+        + Logo("sipflood").get_logo()
+        + YELLOW
+        + """
+  Module """
+        + BYELLOW
+        + """flood"""
+        + YELLOW
+        + """ performs a flood of a server by sending messages with a selected method."""
+        + WHITE,
+    )
+
+    target = parser_flood.add_argument_group("Target")
+    target.add_argument(
+        "-i",
+        metavar="IP|HOST",
+        type=str,
+        help="Target IP address",
+        dest="ipaddr",
+    )
+    target.add_argument(
+        "-r",
+        metavar="REMOTE_PORT",
+        type=int,
+        help="Remote port (default: 5060)",
+        dest="rport",
+        default=5060,
+    )
+    target.add_argument(
+        "-p",
+        metavar="PROTOCOL",
+        type=str.upper,
+        help="Protocol: udp|tcp|tls (default: udp)",
+        dest="proto",
+        choices=["UDP", "TCP", "TLS"],
+        default="udp",
+    )
+    target.add_argument(
+        "-proxy",
+        metavar="IP:PORT",
+        type=str,
+        help="Use an outbound proxy (ex: 192.168.1.1 or 192.168.1.1:5070)",
+        dest="proxy",
+        default="",
+    )
+
+    headers = parser_flood.add_argument_group("Headers")
+    headers.add_argument(
+        "-m",
+        metavar="METHOD",
+        type=str.upper,
+        help="SIP method: options, invite, register (default: options)",
+        dest="method",
+        choices=["OPTIONS", "REGISTER", "INVITE"],
+        default="options",
+    )
+    headers.add_argument(
+        "-d",
+        metavar="DOMAIN",
+        type=str,
+        help="SIP Domain or IP address. Ex: my.sipserver.com (default: target IP address)",
+        dest="domain",
+        default="",
+    )
+    headers.add_argument(
+        "-cd",
+        metavar="CONTACT_DOMAIN",
+        type=str,
+        help="Domain or IP address for Contact header. Ex: 10.0.1.2",
+        dest="contact_domain",
+        default="",
+    )
+    headers.add_argument(
+        "-fn",
+        metavar="FROM_NAME",
+        type=str,
+        help="From Name. Ex: Bob",
+        dest="from_name",
+        default="",
+    )
+    headers.add_argument(
+        "-fu",
+        metavar="FROM_USER",
+        type=str,
+        help="From User (default: 100)",
+        dest="from_user",
+        default="100",
+    )
+    headers.add_argument(
+        "-fd",
+        metavar="FROM_DOMAIN",
+        type=str,
+        help="From Domain. Ex: 10.0.0.1",
+        dest="from_domain",
+        default="",
+    )
+    headers.add_argument(
+        "-tn",
+        metavar="TO_NAME",
+        type=str,
+        help="To Name. Ex: Alice",
+        dest="to_name",
+        default="",
+    )
+    headers.add_argument(
+        "-tu",
+        metavar="TO_USER",
+        type=str,
+        help="To User (default: 100)",
+        dest="to_user",
+        default="100",
+    )
+    headers.add_argument(
+        "-td",
+        metavar="TO_DOMAIN",
+        type=str,
+        help="To Domain. Ex: 10.0.0.1",
+        dest="to_domain",
+        default="",
+    )
+    headers.add_argument(
+        "-ua",
+        metavar="USER_AGENT",
+        type=str,
+        help="User-Agent header (default: pplsip)",
+        dest="user_agent",
+        default="pplsip",
+    )
+    headers.add_argument(
+        "-digest",
+        metavar="DIGEST",
+        type=str,
+        help="Add a customized Digest header",
+        dest="digest",
+        default="",
+    )
+
+    log = parser_flood.add_argument_group("Log")
+    log.add_argument(
+        "-v", help="Increase verbosity", dest="verbose", action="count"
+    )
+    log.add_argument(
+        "-o",
+        metavar="FILE",
+        type=str,
+        help="Save data into a log file",
+        dest="ofile",
+        default="",
+    )
+
+    fuzz = parser_flood.add_argument_group("Fuzzing")
+    fuzz.add_argument(
+        "-b", help="Send malformed headers", dest="bad", action="count"
+    )
+    fuzz.add_argument(
+        "-charset",
+        metavar="CHARSET",
+        help='Alphabet [all|printable|ascii|hex] (by default: printable characters) -  "-b required"',
+        dest="alphabet",
+        default="printable",
+    )
+    fuzz.add_argument(
+        "-min",
+        metavar="NUMBER",
+        type=int,
+        help='Min length (default: 0) -  "-b required"',
+        dest="min",
+        default=0,
+    )
+    fuzz.add_argument(
+        "-max",
+        metavar="NUMBER",
+        type=int,
+        help='Max length (default: 1000) - "-b required"',
+        dest="max",
+        default=1000,
+    )
+
+    other = parser_flood.add_argument_group("Other options")
+    other.add_argument(
+        "-th",
+        metavar="THREADS",
+        type=int,
+        help="Number of threads (default: 200)",
+        dest="threads",
+        default=200,
+    )
+    other.add_argument(
+        "-n",
+        "--number",
+        type=int,
+        help="Number of requests (by default: non stop)",
+        dest="number",
+        default=0,
+    )
+    other.add_argument(
+        "-h", "--help", help="Show this help", dest="help", action="count"
+    )
+
+    #################
     # sniff command #
     #################
     parser_sniff = subparsers.add_parser(
@@ -4267,6 +4474,77 @@ Payloads
             PREFIX,
             SUFFIX,
             THREADS,
+        )
+    elif COMMAND == "fuzz":
+        if args.help == 1:
+            parser_fuzz.print_help()
+            exit()
+        if not args.ipaddr:
+            parser_fuzz.print_help()
+            print(RED)
+            print("Param error!")
+            print(
+                f"{BWHITE}{COMMAND}:{WHITE} Mandatory params: {GREEN}-i <IP|HOST>"
+            )
+            print(
+                f"{WHITE}Use {CYAN}sippts {COMMAND} -h/--help{WHITE} for help"
+            )
+            exit()
+        if (
+            args.alphabet == 1 or args.min == 1 or args.max == 1
+        ) and args.bad == 0:
+            print("Forgot to add -b but it's okay i am doing it for you")
+            args.bad = 1
+
+        IPADDR = args.ipaddr
+        PROXY = args.proxy
+        HOST = args.ipaddr
+        RPORT = args.rport
+        PROTO = args.proto
+        METHOD = args.method
+        DOMAIN = args.domain
+        CONTACTDOMAIN = args.contact_domain
+        FROMNAME = args.from_name
+        FROMUSER = args.from_user
+        FROMDOMAIN = args.from_domain
+        TONAME = args.to_name
+        TOUSER = args.to_user
+        TODOMAIN = args.to_domain
+        DIGEST = args.digest
+        UA = args.user_agent
+        THREADS = args.threads
+        VERBOSE = args.verbose
+        NUMBER = args.number
+        BAD = args.bad
+        ALPHABET = args.alphabet
+        MIN = args.min
+        MAX = args.max
+
+        return (
+            COMMAND,
+            IPADDR,
+            PROXY,
+            HOST,
+            RPORT,
+            PROTO,
+            METHOD,
+            DOMAIN,
+            CONTACTDOMAIN,
+            FROMNAME,
+            FROMUSER,
+            FROMDOMAIN,
+            TONAME,
+            TOUSER,
+            TODOMAIN,
+            DIGEST,
+            UA,
+            THREADS,
+            VERBOSE,
+            NUMBER,
+            BAD,
+            ALPHABET,
+            MAX,
+            MIN,
         )
     elif COMMAND == "flood":
         if args.help == 1:
