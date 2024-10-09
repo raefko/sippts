@@ -49,7 +49,7 @@ class SipRegisterBf:
         self.localip = ""
         self.header = ""
         self.nocontact = 0
-        self.timeout = 5
+        self.timeout = 20
         self.verbose = 0
 
         self.withcontact = 1
@@ -155,7 +155,6 @@ class SipRegisterBf:
                 f"{self.c.BWHITE}[✓] Customized User-Agent: {self.c.GREEN}{self.user_agent}"
             )
         print(self.c.WHITE)
-        # Output to file if specified
 
         # Generate necessary SIP headers
         if not self.branch:
@@ -264,20 +263,6 @@ class SipRegisterBf:
 
             if self.proto == "TCP":
                 sock.connect(host)
-
-            if self.proto == "TLS":
-                context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-                context.check_hostname = False
-                context.verify_mode = ssl.CERT_NONE
-                context.load_default_certs()
-
-                sock_ssl = context.wrap_socket(
-                    sock, server_hostname=str(host[0])
-                )
-                sock_ssl.connect(host)
-                sock_ssl.sendall(msg.encode("utf-8"))
-            else:
-                sock.sendto(msg.encode("utf-8"), host)
 
             # Sending initial REGISTER request
             if self.verbose == 1:
@@ -461,7 +446,6 @@ def main():
     )
     parser.add_argument("--ip", required=True, help="Target IP address")
     parser.add_argument("--from_domain", required=True, help="From domain")
-    parser.add_argument("--user", required=True, help="User")
     parser.add_argument("--from_user", required=True, help="From user")
     parser.add_argument(
         "--wordlist", required=True, help="Path to the wordlist file"
@@ -475,7 +459,6 @@ def main():
     sipregister.proto = args.proto
     sipregister.ip = args.ip
     sipregister.from_domain = args.from_domain
-    sipregister.user = args.user
     sipregister.from_user = args.from_user
 
     with open(args.wordlist, "r") as file:
