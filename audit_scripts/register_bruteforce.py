@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import socket
+import threading
 import sys
 import argparse
 import ssl
@@ -442,6 +443,13 @@ class SipRegisterBf:
             sock.close()
 
 
+def run_in_thread(sipregister):
+    try:
+        sipregister.start()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="SIP Register Bruteforce Script"
@@ -473,10 +481,9 @@ def main():
     with open(args.wordlist, "r") as file:
         for line in file:
             sipregister.pwd = line.strip()
-            try:
-                sipregister.start()
-            except Exception as e:
-                print(f"An error occurred: {e}")
+            thread = threading.Thread(target=run_in_thread, args=(sipregister,))
+            thread.start()
+            thread.join()  # Wait for the thread to finish before starting the next one
 
 
 if __name__ == "__main__":
