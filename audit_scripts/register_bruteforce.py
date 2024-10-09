@@ -41,7 +41,7 @@ class SipRegisterBf:
         self.to_domain = ""
         self.user = ""
         self.pwd = ""
-        self.user_agent = "pplsip"
+        self.user_agent = "PhonerLite/3.26"
         self.digest = ""
         self.branch = ""
         self.callid = ""
@@ -134,7 +134,7 @@ class SipRegisterBf:
             print(
                 f"{self.c.BWHITE}[✓] Customized From Domain: {self.c.GREEN}{self.from_domain}"
             )
-        if self.from_tag:
+        if self.from_tag != "":
             print(
                 f"{self.c.BWHITE}[✓] Customized From Tag: {self.c.GREEN}{self.from_tag}"
             )
@@ -142,7 +142,7 @@ class SipRegisterBf:
             print(
                 f"{self.c.BWHITE}[✓] Customized To Name: {self.c.GREEN}{self.to_name}"
             )
-        if self.to_user:
+        if self.to_user != "":
             print(
                 f"{self.c.BWHITE}[✓] Customized To User: {self.c.GREEN}{self.to_user}"
             )
