@@ -17,7 +17,7 @@ while IFS= read -r password; do
     -p tcp \
     -proxy 80.156.100.67:5060 \
     -m register \
-    -fu +491244378510 \
+    -fu +4991244378510 \
     -fd siptrunk2.ver.sul.t-online.de \
     -td siptrunk2.ver.sul.t-online.de \
     -ua "PhonerLite/3.26" \
