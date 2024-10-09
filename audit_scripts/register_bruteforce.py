@@ -457,6 +457,8 @@ def main():
     sipregister.proto = args.proto
     sipregister.ip = args.ip
     sipregister.from_domain = args.from_domain
+    sipregister.to_domain = args.from_domain
+    sipregister.domain = args.from_domain
     sipregister.from_user = args.from_user
 
     with open(args.wordlist, "r") as file:
