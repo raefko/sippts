@@ -3,7 +3,11 @@
 import socket
 import sys
 import argparse
+import os
 import ssl
+
+sys.path.append(os.path.abspath("../src/sippts/lib"))
+
 from ..src.sippts.lib.functions import (
     create_message,
     get_free_port,
