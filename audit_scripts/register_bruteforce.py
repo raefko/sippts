@@ -3,12 +3,8 @@
 import socket
 import sys
 import argparse
-import os
 import ssl
-
-sys.path.append(os.path.abspath("../src/sippts/lib"))
-
-from ..src.sippts.lib.functions import (
+from lib.functions import (
     create_message,
     get_free_port,
     parse_message,
@@ -17,8 +13,8 @@ from ..src.sippts.lib.functions import (
     calculateHash,
     get_machine_default_ip,
 )
-from ..src.sippts.lib.color import Color
-from ..src.sippts.lib.logos import Logo
+from lib.color import Color
+from lib.logos import Logo
 
 
 class SipRegisterBf:
