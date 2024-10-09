@@ -164,9 +164,6 @@ class SipRegisterBf:
         if not self.from_tag:
             self.from_tag = generate_random_string(8, 8, "hex")
 
-        if self.nocolor == 1:
-            self.c.ansy()
-
         if not self.cseq:
             self.cseq = "1"
 
