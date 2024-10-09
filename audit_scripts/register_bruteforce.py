@@ -473,7 +473,10 @@ def main():
     with open(args.wordlist, "r") as file:
         for line in file:
             sipregister.pwd = line.strip()
-            sipregister.start()
+            try:
+                sipregister.start()
+            except Exception as e:
+                print(f"An error occurred: {e}")
 
 
 if __name__ == "__main__":
