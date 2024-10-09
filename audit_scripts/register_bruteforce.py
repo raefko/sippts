@@ -4,7 +4,7 @@ import socket
 import sys
 import argparse
 import ssl
-from lib.functions import (
+from ..src.sippts.lib.functions import (
     create_message,
     get_free_port,
     parse_message,
@@ -13,8 +13,8 @@ from lib.functions import (
     calculateHash,
     get_machine_default_ip,
 )
-from lib.color import Color
-from lib.logos import Logo
+from ..src.sippts.lib.color import Color
+from ..src.sippts.lib.logos import Logo
 
 
 class SipRegisterBf:
