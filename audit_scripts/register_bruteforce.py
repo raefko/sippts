@@ -464,6 +464,7 @@ def main():
     with open(args.wordlist, "r") as file:
         for line in file:
             sipregister.pwd = line.strip()
+            print(f"Trying password: --{sipregister.pwd}--")
             thread = threading.Thread(target=run_in_thread, args=(sipregister,))
             thread.start()
             thread.join()  # Wait for the thread to finish before starting the next one
