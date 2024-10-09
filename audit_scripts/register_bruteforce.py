@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import socket
 import threading
+from time import sleep
 import sys
 import argparse
 import ssl
@@ -465,9 +466,8 @@ def main():
         for line in file:
             sipregister.pwd = line.strip()
             print(f"Trying password: --{sipregister.pwd}--")
-            thread = threading.Thread(target=run_in_thread, args=(sipregister,))
-            thread.start()
-            thread.join()  # Wait for the thread to finish before starting the next one
+            sipregister.start()
+            sleep(5)
 
 
 if __name__ == "__main__":
