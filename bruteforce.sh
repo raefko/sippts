@@ -1,13 +1,8 @@
 #!/bin/bash
 
-# Check if wordlist.txt exists
-if [ ! -f wordlist.txt ]; then
-    echo "wordlist.txt not found!"
-    exit 1
-fi
-
-# Iterate over each line in wordlist.txt
-while IFS= read -r password; do
+# Function to try a password
+try_password() {
+    local password=$1
     echo "Trying password: $password"
     
     # Execute the sippts command with the current password and capture the output
@@ -31,8 +26,11 @@ while IFS= read -r password; do
         echo "PASSWORD FOUND: $password"
         exit 0
     fi
+}
 
-done < wordlist.txt
+export -f try_password
+
+# Run the try_password function in parallel for each password in wordlist.txt
+cat wordlist.txt | parallel -j 4 try_password {}
 
 echo "Password not found in the wordlist."
-exit 1

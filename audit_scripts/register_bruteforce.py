@@ -27,7 +27,7 @@ class SipRegisterBf:
         self.template = ""
         self.proxy = ""
         self.route = ""
-        self.rport = "5060"
+        self.rport = 5060
         self.lport = ""
         self.proto = "UDP"
         self.method = "REGISTER"
@@ -58,7 +58,7 @@ class SipRegisterBf:
         self.c = Color()
 
     def start(self):
-        supported_protos = ["UDP", "TCP", "TLS"]
+        supported_protos = ["TCP"]
         self.method = "REGISTER"
         self.proto = self.proto.upper()
 
@@ -76,10 +76,6 @@ class SipRegisterBf:
                 )
                 print(self.c.WHITE)
                 exit()
-
-        # Adjust default port for TLS
-        if self.rport == "5060" and self.proto == "TLS":
-            self.rport = "5061"
 
         # Check protocol
         if self.proto not in supported_protos:
@@ -188,7 +184,7 @@ class SipRegisterBf:
 
         # Set target host
         if not self.proxy:
-            host = (str(self.ip), int(self.rport))
+            host = (str(self.ip), self.rport)
         else:
             if ":" in self.proxy:
                 proxy_ip, proxy_port = self.proxy.split(":")
@@ -196,6 +192,7 @@ class SipRegisterBf:
                 proxy_ip = self.proxy
                 proxy_port = "5060"
             host = (str(proxy_ip), int(proxy_port))
+            print("Proxy: ", host)
 
         # Set domains
         if self.host and not self.domain:
