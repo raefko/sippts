@@ -51,7 +51,7 @@ class SipRegisterBf:
         self.header = ""
         self.nocontact = 0
         self.timeout = 20
-        self.verbose = 0
+        self.verbose = 1
 
         self.withcontact = 1
 
