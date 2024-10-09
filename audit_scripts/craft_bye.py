@@ -78,9 +78,9 @@ def send_bye_message(sip_message, sip_server_ip, sip_server_port):
 
 # Example usage
 interface = "any"  # e.g., 'eth0' or 'en0'
-source_ip = "10.213.57.101"
+source_ip = "10.213.57.102"
 source_port = "5060"
-destination_ip = "10.213.57.102"
+destination_ip = "10.213.57.101"
 destination_port = 5060
 
 # Step 1: Extract information from INVITE and 200 OK
