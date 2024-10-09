@@ -181,7 +181,6 @@ class SipRegisterBf:
 
         # Bind socket
         try:
-            print("binding")
             sock.bind((bind, lport))
         except Exception:
             lport = get_free_port()
@@ -257,8 +256,6 @@ class SipRegisterBf:
                 header=self.header,
                 withcontact=self.withcontact,
             )
-            print(msg)
-
         try:
             sock.settimeout(self.timeout)
 
