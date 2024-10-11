@@ -173,6 +173,8 @@ class SipFuzz:
                     sock.close()
         except Exception as e:
             logging.error(f"An error occurred in FUZZ thread: {e}")
+            if sock:
+                sock.close()
         finally:
             if sock:
                 sock.close()
