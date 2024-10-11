@@ -87,6 +87,8 @@ class SipFuzz:
         if self.bad:
             self.supported_methods.append("FUZZ")
 
+        self.pbar = None  # Initialize the progress bar variable
+
     def start(self):
         """
         Starts the fuzzing process.
@@ -133,18 +135,17 @@ class SipFuzz:
                 t = threading.Thread(target=self.fuzz)
                 threads.append(t)
                 t.start()
+
+        # Initialize the progress bar
+        total_requests = self.number if self.number > 0 else float("inf")
+        self.pbar = tqdm(
+            total=total_requests, desc="Sending messages", unit="msg"
+        )
+
         for t in threads:
             t.join()
-        # Use tqdm for progress bar
-        total_requests = self.number if self.number > 0 else float("inf")
-        with tqdm(
-            total=total_requests, desc="Sending messages", unit="msg"
-        ) as pbar:
-            while any(t.is_alive() for t in threads):
-                if self.count_lock.acquire(False):
-                    pbar.update(self.count - pbar.n)
-                    self.count_lock.release()
-                time.sleep(0.1)
+
+        self.pbar.close()  # Close the progress bar
 
         logging.info(f"Sent {self.count} messages")
 
@@ -159,25 +160,26 @@ class SipFuzz:
         """
         Performs the fuzzing by sending SIP messages to the target.
         """
-        sock = None
-        try:
-            # Initialize socket
-            host = self.get_host()
-            while not self.stop_event.is_set() and (
-                self.count < self.number or self.number == 0
-            ):
-                sock = self.initialize_socket()
-                msg, method_label = self.generate_message()
-                self.send_message(sock, msg, host, method_label)
+        while not self.stop_event.is_set():
+            sock = None
+            try:
+                # Initialize socket
+                host = self.get_host()
+                while not self.stop_event.is_set() and (
+                    self.count < self.number or self.number == 0
+                ):
+                    sock = self.initialize_socket()
+                    msg, method_label = self.generate_message()
+                    self.send_message(sock, msg, host, method_label)
+                    if sock:
+                        sock.close()
+            except Exception as e:
+                logging.error(f"An error occurred in FUZZ thread: {e}")
                 if sock:
                     sock.close()
-        except Exception as e:
-            logging.error(f"An error occurred in FUZZ thread: {e}")
-            if sock:
-                sock.close()
-        finally:
-            if sock:
-                sock.close()
+            finally:
+                if sock:
+                    sock.close()
 
     def initialize_socket(self):
         """
@@ -330,6 +332,8 @@ class SipFuzz:
                 sock.sendto(msg.encode("utf-8"), host)
             with self.count_lock:
                 self.count += 1
+                if self.pbar is not None:
+                    self.pbar.update(1)  # Update the progress bar
         except Exception as e:
             logging.error(f"Failed to send message: {e}")
 
